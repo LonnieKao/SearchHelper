@@ -75,7 +75,7 @@
             this.txtRangStart.Name = "txtRangStart";
             this.txtRangStart.Size = new System.Drawing.Size(100, 22);
             this.txtRangStart.TabIndex = 2;
-            this.txtRangStart.Text = "5";
+            this.txtRangStart.Text = "15";
             // 
             // txtRangEnd
             // 
@@ -83,7 +83,7 @@
             this.txtRangEnd.Name = "txtRangEnd";
             this.txtRangEnd.Size = new System.Drawing.Size(100, 22);
             this.txtRangEnd.TabIndex = 3;
-            this.txtRangEnd.Text = "10";
+            this.txtRangEnd.Text = "20";
             // 
             // tableLayoutPanel1
             // 

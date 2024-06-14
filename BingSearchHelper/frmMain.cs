@@ -55,6 +55,9 @@
                 var lastIdx = keyIdx.Last();
                 var Key = keyWards[lastIdx];
                 keyIdx.Remove(lastIdx);
+                lastIdx = keyIdx.Last();
+                Key += " " + keyWards[lastIdx];
+                keyIdx.Remove(lastIdx);
 
                 Task.Delay(delay).Wait();
                 wvMain.Invoke((Action)(() =>
@@ -78,7 +81,7 @@
 
             rand = new Random();
 
-            for (int i = 0; i < SearchNum; i++)
+            for (int i = 0; i < SearchNum*2; i++)
             {
                 int idx;
                 do
@@ -90,6 +93,9 @@
             }
             var lastIdx = keyIdx.Last();
             var keyWord = keyWards[lastIdx];
+            keyIdx.Remove(lastIdx);
+            lastIdx = keyIdx.Last();
+            keyWord += " " + keyWards[lastIdx];
             keyIdx.Remove(lastIdx);
             Init(keyWord);
             lblSearchCount.Text = "1";
