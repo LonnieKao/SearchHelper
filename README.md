@@ -24,10 +24,10 @@
 功能限制
 =======
 可使用User-Agent，模擬手機畫面，取得點數。  
-但是必須要清除cache之後重新登入。
-沒有辦法全部自動。
-登入介面的帳號欄位無法透過js塞值。
-ex:document.getElementById('i0116').value=XXX@gamil.com
-key event也是會被偵測出非鍵盤輸入。
-塞入的值會被自動清除。
+但是必須要清除cache之後重新登入。  
+沒有辦法全部自動。  
+登入介面的帳號欄位無法透過js塞值。  
+ex:document.getElementById('i0116').value=XXX@gamil.com  
+key event也是會被偵測出非鍵盤輸入。  
+塞入的值會被自動清除。  
 如有任何建議，請告訴我，謝謝。
