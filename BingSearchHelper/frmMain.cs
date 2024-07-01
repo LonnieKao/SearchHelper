@@ -31,6 +31,15 @@
         EMode currentMode = EMode.pc;
 
         string MobileAgent = ConfigurationManager.AppSettings["UserAgnet"];
+
+        int delay;
+
+        private bool InitFlag = true;
+        private bool resetFlag = false;
+
+
+        private string CurrentPCUserAgent = string.Empty;
+
         enum EMode
         {
             mobile = 0,
@@ -44,21 +53,47 @@
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            wvMain.Source = new Uri($@"https://www.bing.com/");
-            Task.Delay(1000).Wait();
-            //if (!string.IsNullOrEmpty(Properties.Settings.Default.PhoneMode))
-            //{
-            //    lblMode.Text = "目前模式:mobile";
-            //    currentMode = EMode.mobile;
-            //   // wvMain.CoreWebView2.Settings.UserAgent = MobileAgent;
-            //}
-            //else
-            //{
-                lblMode.Text = "目前模式:PC";
-                currentMode = EMode.pc;
-            //}
-
+            wvMain.Source = new Uri($@"https://www.google.com.tw");
             keyWards = File.ReadAllLines("keywords.txt");
+        }
+
+        private void GetInitModePCMode()
+        {
+            if (Properties.Settings.Default.SearchMode == "PC")
+            {
+                currentMode = EMode.pc;
+                lblMode.Text = "目前模式:PC";
+            }
+            else
+            {
+                wvMain.CoreWebView2.Settings.UserAgent = MobileAgent;
+                currentMode = EMode.mobile;
+                lblMode.Text = "目前模式:mobile";
+            }
+        }
+
+
+        private void changeMode()
+        {
+            if (currentMode == EMode.mobile)
+            {
+                wvMain.CoreWebView2.Settings.UserAgent = CurrentPCUserAgent;
+                currentMode = EMode.pc;
+                lblMode.Text = "目前模式:PC";
+                Properties.Settings.Default.SearchMode = "PC";
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                wvMain.CoreWebView2.Settings.UserAgent = MobileAgent;
+                currentMode = EMode.mobile;
+                lblMode.Text = "目前模式:mobile";
+                Properties.Settings.Default.SearchMode = "Mobile";
+                Properties.Settings.Default.Save();
+            }
+            //重置
+            resetFlag = false;
+            wvMain.Source = new Uri($@"https://www.bing.com/");
         }
 
         private void Init(string KeyWord)
@@ -68,30 +103,6 @@
             Task.Delay(2000).Wait();
         }
 
-        private void ExeSerach(string txtArarName = "sb_form_q", string goActionName = "sb_form_go")
-        {
-            if (keyIdx.Count > 0)
-            {
-                var delay = rand.Next(RangS * 10, RangE * 10) * 100;
-
-                var lastIdx = keyIdx.Last();
-                var Key = keyWards[lastIdx];
-                keyIdx.Remove(lastIdx);
-                lastIdx = keyIdx.Last();
-                Key += " " + keyWards[lastIdx];
-                keyIdx.Remove(lastIdx);
-
-                Task.Delay(delay).Wait();
-                wvMain.Invoke((Action)(() =>
-                {
-                    wvMain.ExecuteScriptAsync($@"document.getElementById('sb_form_q').value = '{Key}';");
-                    wvMain.ExecuteScriptAsync(@"document.getElementById('sb_form_go').click();");
-                }));
-
-                int.TryParse(lblSearchCount.Text, out int count);
-                lblSearchCount.Invoke((Action)(() => { lblSearchCount.Text = (count + 1).ToString(); }));
-            }
-        }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
@@ -121,19 +132,91 @@
             keyIdx.Remove(lastIdx);
             Init(keyWord);
             lblSearchCount.Text = "1";
+
+            NextSerach();
         }
 
         private void wvMain_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
         {
-            NextSerach();
+            if (InitFlag)
+            {
+                CurrentPCUserAgent = wvMain.CoreWebView2.Settings.UserAgent;
+                GetInitModePCMode();
+                wvMain.Source = new Uri($@"https://www.bing.com/");
+                InitFlag = false;
+            }
+            else if (resetFlag)
+            {
+                changeMode();
+            }
+            //else
+            //{
+            //    NextSerach();
+            //}
+            label5.Invoke((Action)(() => { label5.Text = "UserAgent:" + wvMain.CoreWebView2.Settings.UserAgent; }));
+        }
+
+        private void CountDown()
+        {
+            var val = delay;
+            while (val >= 0)
+            {
+                Task.Delay(1000).Wait();
+                val -= 1000;
+                lblCountDown.Invoke((Action)(() =>
+                {
+                    if (val >= 0)
+                    {
+                        lblCountDown.Text = string.Format("CountDown:{0}", (val / 1000) + "." + (val % 1000));
+                    }
+                    else
+                    {
+                        lblCountDown.Text = string.Format("CountDown:{0}", 0);
+                    }
+                }));
+            }
         }
 
         private void NextSerach()
         {
             Task.Factory.StartNew(() =>
             {
-                Task.Delay(1000).Wait();
-                ExeSerach();
+                //delay = rand.Next(RangS * 10, RangE * 10) * 100;
+                //label4.Invoke((Action)(() => { label4.Text = "Delay:" + (delay / 1000).ToString() + "." + (delay % 1000).ToString(); }));
+                ////第一次暫停
+                //Task.Factory.StartNew(() =>
+                //{
+                //    CountDown();
+                //});
+                //Task.Delay(delay).Wait();
+                while (keyIdx.Count > 0)
+                {
+                    delay = rand.Next(RangS * 10, RangE * 10) * 100;
+
+                    var lastIdx = keyIdx.Last();
+                    var Key = keyWards[lastIdx];
+                    keyIdx.Remove(lastIdx);
+                    lastIdx = keyIdx.Last();
+                    Key += " " + keyWards[lastIdx];
+                    keyIdx.Remove(lastIdx);
+
+                    int.TryParse(lblSearchCount.Text, out int count2);
+                    label4.Invoke((Action)(() => { label4.Text = "Delay:" + (delay / 1000).ToString() + "." + (delay % 1000).ToString(); }));
+                    Task.Factory.StartNew(() =>
+                    {
+                        CountDown();
+                    });
+                    Task.Delay(delay).Wait();
+
+                    wvMain.Invoke((Action)(() =>
+                    {
+                        wvMain.ExecuteScriptAsync($@"document.getElementById('sb_form_q').value = '{Key}';");
+                        wvMain.ExecuteScriptAsync(@"document.getElementById('sb_form_go').click();");
+                    }));
+
+                    int.TryParse(lblSearchCount.Text, out int count);
+                    lblSearchCount.Invoke((Action)(() => { lblSearchCount.Text = (count + 1).ToString(); }));
+                }
             });
         }
 
@@ -144,25 +227,11 @@
                 return;
             }
 
+            //清除快取
             ClearCache();
-
-            if (currentMode == EMode.mobile)
-            {
-                wvMain.CoreWebView2.Settings.UserAgent = null;
-                currentMode = EMode.pc;
-                lblMode.Text = "目前模式:PC";
-                //Properties.Settings.Default.PhoneMode = string.Empty;
-                //Properties.Settings.Default.Save();
-            }
-            else
-            {
-                wvMain.CoreWebView2.Settings.UserAgent = MobileAgent;
-                currentMode = EMode.mobile;
-                lblMode.Text = "目前模式:mobile";
-                //Properties.Settings.Default.PhoneMode = "true";
-                //Properties.Settings.Default.Save();
-            }
-            wvMain.Source = new Uri($@"https://www.bing.com/");
+            resetFlag = true;
+            //先轉到google去
+            wvMain.Source = new Uri($@"https://www.google.com.tw");
         }
 
         private async void ClearCache()
@@ -172,6 +241,7 @@
             //var dataKinds = CoreWebView2BrowsingDataKinds.FileSystems;
             var dataKinds = CoreWebView2BrowsingDataKinds.AllProfile;
             await wvMain.CoreWebView2.Profile.ClearBrowsingDataAsync(dataKinds);
+            keyIdx.Clear();
         }
 
         private void button1_Click_1(object sender, EventArgs e)
