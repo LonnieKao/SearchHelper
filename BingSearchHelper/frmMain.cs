@@ -14,7 +14,7 @@
     using System.Xml.Linq;
     using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
     using System.Configuration;
-
+    using BingSearchHelper.Models;
 
     public partial class frmMain : Form
     {
@@ -22,9 +22,10 @@
         private string[] keyWards;
         private List<int> keyIdx = new List<int>();
 
-        int RangS = 3;
-        int RangE = 5;
-        int SearchNum = 35;
+        MD_Args args = new MD_Args();
+        //int RangS = 3;
+        //int RangE = 5;
+        //int SearchNum = 35;
 
         Random rand = new Random();
 
@@ -53,6 +54,9 @@
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            txtRangStart.Text = args.RngS.ToString();
+            txtRangEnd.Text = args.RngE.ToString();
+            txtSearchTime.Text= args.SearchNum.ToString();  
             wvMain.Source = new Uri($@"https://www.google.com.tw");
             keyWards = File.ReadAllLines("keywords.txt");
         }
@@ -106,15 +110,16 @@
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(txtRangStart.Text, out RangS) || !int.TryParse(txtRangEnd.Text, out RangE) || !int.TryParse(txtSearchTime.Text, out SearchNum))
+            if (!int.TryParse(txtRangStart.Text, out args.RngS) || !int.TryParse(txtRangEnd.Text, out args.RngE) || !int.TryParse(txtSearchTime.Text, out args.SearchNum))
             {
                 MessageBox.Show("參數設定錯誤");
                 return;
             }
+            args.SaveArgs();
 
             rand = new Random();
 
-            for (int i = 0; i < SearchNum * 2; i++)
+            for (int i = 0; i < args.SearchNum * 2; i++)
             {
                 int idx;
                 do
@@ -191,7 +196,7 @@
                 //Task.Delay(delay).Wait();
                 while (keyIdx.Count > 0)
                 {
-                    delay = rand.Next(RangS * 10, RangE * 10) * 100;
+                    delay = rand.Next(args.RngS * 10, args.RngE * 10) * 100;
 
                     var lastIdx = keyIdx.Last();
                     var Key = keyWards[lastIdx];
