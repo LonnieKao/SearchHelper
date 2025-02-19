@@ -23,9 +23,6 @@
         private List<int> keyIdx = new List<int>();
 
         MD_Args args = new MD_Args();
-        //int RangS = 3;
-        //int RangE = 5;
-        //int SearchNum = 35;
 
         Random rand = new Random();
 
@@ -56,9 +53,16 @@
         {
             txtRangStart.Text = args.RngS.ToString();
             txtRangEnd.Text = args.RngE.ToString();
-            txtSearchTime.Text= args.SearchNum.ToString();  
+            txtSearchTime.Text = args.SearchNum.ToString();
             wvMain.Source = new Uri($@"https://www.google.com.tw");
             keyWards = File.ReadAllLines("keywords.txt");
+            chkAutoMode.Checked = args.AutoMod;
+            Task.Factory.StartNew(() =>
+            {
+                Task.Delay(10000).Wait();
+                checkAutMode();
+            });
+
         }
 
         private void GetInitModePCMode()
@@ -110,35 +114,43 @@
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(txtRangStart.Text, out args.RngS) || !int.TryParse(txtRangEnd.Text, out args.RngE) || !int.TryParse(txtSearchTime.Text, out args.SearchNum))
+            try
             {
-                MessageBox.Show("參數設定錯誤");
-                return;
-            }
-            args.SaveArgs();
-
-            rand = new Random();
-
-            for (int i = 0; i < args.SearchNum * 2; i++)
-            {
-                int idx;
-                do
+                if (!int.TryParse(txtRangStart.Text, out args.RngS) || !int.TryParse(txtRangEnd.Text, out args.RngE) || !int.TryParse(txtSearchTime.Text, out args.SearchNum))
                 {
-                    idx = rand.Next(0, keyWards.Length - 1);
-                } while (keyIdx.Contains(idx));
+                    MessageBox.Show("參數設定錯誤");
+                    return;
+                }
+                args.AutoMod = chkAutoMode.Checked;
+                args.SaveArgs();
 
-                keyIdx.Add(idx);
+                rand = new Random();
+
+                for (int i = 0; i < args.SearchNum * 2; i++)
+                {
+                    int idx;
+                    do
+                    {
+                        idx = rand.Next(0, keyWards.Length - 1);
+                    } while (keyIdx.Contains(idx));
+
+                    keyIdx.Add(idx);
+                }
+                var lastIdx = keyIdx.Last();
+                var keyWord = keyWards[lastIdx];
+                keyIdx.Remove(lastIdx);
+                lastIdx = keyIdx.Last();
+                keyWord += " " + keyWards[lastIdx];
+                keyIdx.Remove(lastIdx);
+                Init(keyWord);
+                lblSearchCount.Invoke((Action)(() => { lblSearchCount.Text = "1"; }));
+                NextSerach();
             }
-            var lastIdx = keyIdx.Last();
-            var keyWord = keyWards[lastIdx];
-            keyIdx.Remove(lastIdx);
-            lastIdx = keyIdx.Last();
-            keyWord += " " + keyWards[lastIdx];
-            keyIdx.Remove(lastIdx);
-            Init(keyWord);
-            lblSearchCount.Text = "1";
-
-            NextSerach();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "," + ex.StackTrace);
+                throw;
+            }
         }
 
         private void wvMain_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
@@ -154,10 +166,6 @@
             {
                 changeMode();
             }
-            //else
-            //{
-            //    NextSerach();
-            //}
             label5.Invoke((Action)(() => { label5.Text = "UserAgent:" + wvMain.CoreWebView2.Settings.UserAgent; }));
         }
 
@@ -255,6 +263,36 @@
 
             wvMain.CoreWebView2.Settings.UserAgent = "Mozilla/5.0 (Linux; Android 9; ASUS_X00TDB Build/PKQ1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/120.0.6099.144 Mobile Safari/537.36";
             wvMain.Source = new Uri($@"https://www.bing.com/search?q=test");
+        }
+
+        private void checkAutMode()
+        {
+            if (chkAutoMode.Checked)
+            {
+                var res = CustomMessageBox.Show("是否要自動執行?");
+
+                if (res)
+                {
+                    Task.Factory.StartNew(() =>
+                    {
+                        while (true)
+                        {
+                            Task.Delay(5000).Wait();
+                            var searchCount = string.Empty;
+                            lblSearchCount.Invoke((Action)(() => { searchCount = lblSearchCount.Text; }));
+                            var searchTime = string.Empty;
+                            txtSearchTime.Invoke((Action)(() => { searchTime = txtSearchTime.Text; }));
+                            if (searchCount == searchTime)
+                            {
+                                break;
+                            }
+                        }
+                        this.Invoke((Action)(() => { this.Close(); }));
+                    });
+
+                    this.Invoke((Action)(() => { btnStart_Click(null, null); }));
+                }
+            }
         }
     }
 }

@@ -34,26 +34,27 @@
             this.txtRangEnd = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.lblCountDown = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lblMode = new System.Windows.Forms.Label();
-            this.btnChangeMode = new System.Windows.Forms.Button();
-            this.lblSearchCount = new System.Windows.Forms.Label();
-            this.txtSearchTime = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.chkAutoMode = new System.Windows.Forms.CheckBox();
+            this.lblMode = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.btnChangeMode = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblCountDown = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblSearchCount = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtSearchTime = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.wvMain)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // wvMain
@@ -122,33 +123,28 @@
             this.panel1.Size = new System.Drawing.Size(971, 130);
             this.panel1.TabIndex = 1;
             // 
-            // lblCountDown
+            // groupBox4
             // 
-            this.lblCountDown.AutoSize = true;
-            this.lblCountDown.Location = new System.Drawing.Point(242, 18);
-            this.lblCountDown.Name = "lblCountDown";
-            this.lblCountDown.Size = new System.Drawing.Size(64, 17);
-            this.lblCountDown.TabIndex = 15;
-            this.lblCountDown.Text = "CountDown:";
-            this.lblCountDown.UseCompatibleTextRendering = true;
+            this.groupBox4.Controls.Add(this.chkAutoMode);
+            this.groupBox4.Controls.Add(this.lblMode);
+            this.groupBox4.Controls.Add(this.label5);
+            this.groupBox4.Controls.Add(this.btnChangeMode);
+            this.groupBox4.Location = new System.Drawing.Point(9, 61);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(755, 64);
+            this.groupBox4.TabIndex = 19;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "模式設定:";
             // 
-            // label5
+            // chkAutoMode
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 41);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(57, 12);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "UserAgent:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 18);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 12);
-            this.label4.TabIndex = 13;
-            this.label4.Text = "Delay:";
+            this.chkAutoMode.AutoSize = true;
+            this.chkAutoMode.Location = new System.Drawing.Point(672, 14);
+            this.chkAutoMode.Name = "chkAutoMode";
+            this.chkAutoMode.Size = new System.Drawing.Size(74, 16);
+            this.chkAutoMode.TabIndex = 15;
+            this.chkAutoMode.Text = "AutoMode";
+            this.chkAutoMode.UseVisualStyleBackColor = true;
             // 
             // lblMode
             // 
@@ -159,6 +155,15 @@
             this.lblMode.TabIndex = 12;
             this.lblMode.Text = "目前模式";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 41);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(57, 12);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "UserAgent:";
+            // 
             // btnChangeMode
             // 
             this.btnChangeMode.Location = new System.Drawing.Point(98, 13);
@@ -168,63 +173,6 @@
             this.btnChangeMode.Text = "切換模式並清除快取";
             this.btnChangeMode.UseVisualStyleBackColor = true;
             this.btnChangeMode.Click += new System.EventHandler(this.btnChangeMode_Click);
-            // 
-            // lblSearchCount
-            // 
-            this.lblSearchCount.AutoSize = true;
-            this.lblSearchCount.Location = new System.Drawing.Point(153, 18);
-            this.lblSearchCount.Name = "lblSearchCount";
-            this.lblSearchCount.Size = new System.Drawing.Size(11, 12);
-            this.lblSearchCount.TabIndex = 8;
-            this.lblSearchCount.Text = "0";
-            // 
-            // txtSearchTime
-            // 
-            this.txtSearchTime.Location = new System.Drawing.Point(6, 15);
-            this.txtSearchTime.Name = "txtSearchTime";
-            this.txtSearchTime.Size = new System.Drawing.Size(100, 22);
-            this.txtSearchTime.TabIndex = 7;
-            this.txtSearchTime.Text = "35";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(82, 18);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 12);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "目前次數:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(114, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(11, 12);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "~";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.txtRangEnd);
-            this.groupBox1.Controls.Add(this.txtRangStart);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(9, 9);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(243, 46);
-            this.groupBox1.TabIndex = 16;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "延遲區間(秒):";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.txtSearchTime);
-            this.groupBox2.Location = new System.Drawing.Point(275, 9);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(124, 46);
-            this.groupBox2.TabIndex = 17;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "查詢次數:";
             // 
             // groupBox3
             // 
@@ -240,17 +188,81 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "執行進度:";
             // 
-            // groupBox4
+            // label4
             // 
-            this.groupBox4.Controls.Add(this.lblMode);
-            this.groupBox4.Controls.Add(this.label5);
-            this.groupBox4.Controls.Add(this.btnChangeMode);
-            this.groupBox4.Location = new System.Drawing.Point(9, 61);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(755, 64);
-            this.groupBox4.TabIndex = 19;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "模式設定:";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 18);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 12);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Delay:";
+            // 
+            // lblCountDown
+            // 
+            this.lblCountDown.AutoSize = true;
+            this.lblCountDown.Location = new System.Drawing.Point(242, 18);
+            this.lblCountDown.Name = "lblCountDown";
+            this.lblCountDown.Size = new System.Drawing.Size(64, 17);
+            this.lblCountDown.TabIndex = 15;
+            this.lblCountDown.Text = "CountDown:";
+            this.lblCountDown.UseCompatibleTextRendering = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(82, 18);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(56, 12);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "目前次數:";
+            // 
+            // lblSearchCount
+            // 
+            this.lblSearchCount.AutoSize = true;
+            this.lblSearchCount.Location = new System.Drawing.Point(153, 18);
+            this.lblSearchCount.Name = "lblSearchCount";
+            this.lblSearchCount.Size = new System.Drawing.Size(11, 12);
+            this.lblSearchCount.TabIndex = 8;
+            this.lblSearchCount.Text = "0";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.txtSearchTime);
+            this.groupBox2.Location = new System.Drawing.Point(275, 9);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(124, 46);
+            this.groupBox2.TabIndex = 17;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "查詢次數:";
+            // 
+            // txtSearchTime
+            // 
+            this.txtSearchTime.Location = new System.Drawing.Point(6, 15);
+            this.txtSearchTime.Name = "txtSearchTime";
+            this.txtSearchTime.Size = new System.Drawing.Size(100, 22);
+            this.txtSearchTime.TabIndex = 7;
+            this.txtSearchTime.Text = "35";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txtRangEnd);
+            this.groupBox1.Controls.Add(this.txtRangStart);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Location = new System.Drawing.Point(9, 9);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(243, 46);
+            this.groupBox1.TabIndex = 16;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "延遲區間(秒):";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(114, 20);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(11, 12);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "~";
             // 
             // frmMain
             // 
@@ -264,14 +276,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.wvMain)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -297,6 +309,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.CheckBox chkAutoMode;
     }
 }
 

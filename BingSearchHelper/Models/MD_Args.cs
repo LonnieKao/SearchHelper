@@ -13,6 +13,7 @@
         public int RngS = 10;
         public int RngE = 15;
         public int SearchNum = 35;
+        public bool AutoMod = false;
 
         private const string FileName = "argSetting";
         public MD_Args()
@@ -21,15 +22,20 @@
             {
                 var content = File.ReadAllText(FileName);
                 var vals = content.Split(',');
-                int.TryParse(vals[0], out RngS);
-                int.TryParse(vals[1], out RngE);
-                int.TryParse(vals[2], out SearchNum);
+                if (vals.Length > 0)
+                    int.TryParse(vals[0], out RngS);
+                if (vals.Length > 1)
+                    int.TryParse(vals[1], out RngE);
+                if (vals.Length > 2)
+                    int.TryParse(vals[2], out SearchNum);
+                if (vals.Length > 3)
+                    bool.TryParse(vals[3], out AutoMod);
             }
         }
 
         public void SaveArgs()
         {
-            File.WriteAllText(FileName, $"{RngS},{RngE},{SearchNum}");
+            File.WriteAllText(FileName, $"{RngS},{RngE},{SearchNum},{AutoMod}");
         }
     }
 }
